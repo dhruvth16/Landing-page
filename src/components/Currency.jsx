@@ -5,7 +5,7 @@ import { notesArray } from "../notesArray";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function Currency({ heroTitleRef }) {
+function Currency({ heroTitleRef, rect }) {
   const containerRef = useRef(null);
 
   const notes = Array.from({ length: 100 }, (_, index) => ({
@@ -16,6 +16,8 @@ function Currency({ heroTitleRef }) {
     rotate: Math.random() * 360,
     scale: Math.random() * 0.5 + 0.5,
   }));
+
+  console.log(rect);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -48,11 +50,14 @@ function Currency({ heroTitleRef }) {
         y: 0,
       },
       {
-        opacity: 1,
-        scale: (i) => notes[i].scale * 2,
-        rotation: (i) => notes[i].rotate,
-        top: () => `${Math.floor(Math.random() * 100)}%`,
-        left: () => `${Math.floor(Math.random() * 100)}%`,
+        opacity: 0.8,
+        // scale: (i) => notes[i].scale * 2,
+        rotation: "360deg",
+        // top: () => `${Math.floor(Math.random() * 100)}%`,
+        top: () => `${Math.floor(Math.random() * 21) + 45}%`,
+        // left: () => `${Math.floor(Math.random() * 100)}%`,
+        left: () => "72%",
+        // left: () => `${rect.left}px`,
         y: "-100%",
         stagger: {
           each: 0.05,
@@ -68,21 +73,26 @@ function Currency({ heroTitleRef }) {
   }, []);
 
   return (
-    <div ref={containerRef} className="fixed top-0 left-0 w-full h-screen z-10">
-      {notes.map(({ id, imgUrl, initialTop, initialLeft, rotate, scale }) => (
-        <img
-          draggable
-          key={id}
-          className="absolute w-32 md:w-32 lg:w-[350px]"
-          src={imgUrl}
-          alt="currency"
-          style={{
-            top: initialTop,
-            left: initialLeft,
-            transform: `rotate(${rotate}deg) scale(${scale})`,
-          }}
-        />
-      ))}
+    <div>
+      <div
+        ref={containerRef}
+        className="fixed top-0 left-0 w-full h-screen z-10"
+      >
+        {notes.map(({ id, imgUrl, initialTop, initialLeft, rotate, scale }) => (
+          <img
+            draggable
+            key={id}
+            className="absolute w-32 md:w-32 lg:w-[350px]"
+            src={imgUrl}
+            alt="currency"
+            style={{
+              top: initialTop,
+              left: initialLeft,
+              transform: `rotate(${rotate}deg) scale(${scale})`,
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 }
